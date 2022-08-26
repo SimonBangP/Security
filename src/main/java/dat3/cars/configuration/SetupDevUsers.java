@@ -1,5 +1,9 @@
-package dat3.rename_me.configuration;
+package dat3.cars.configuration;
 
+import dat3.cars.entity.Car;
+import dat3.cars.entity.Member;
+import dat3.cars.repository.CarRepository;
+import dat3.cars.repository.MemberRepository;
 import dat3.security.entity.Role;
 import dat3.security.entity.UserWithRoles;
 import org.springframework.boot.ApplicationArguments;
@@ -11,10 +15,16 @@ import dat3.security.repository.UserWithRolesRepository;
 public class SetupDevUsers implements ApplicationRunner {
 
     UserWithRolesRepository userWithRolesRepository;
+
+
+    MemberRepository memberRepository;
+    CarRepository carRepository;
     String passwordUsedByAll;
 
-    public SetupDevUsers(UserWithRolesRepository userWithRolesRepository) {
+    public SetupDevUsers(UserWithRolesRepository userWithRolesRepository, MemberRepository memberRepository, CarRepository carRepository) {
         this.userWithRolesRepository = userWithRolesRepository;
+        this.memberRepository = memberRepository;
+        this.carRepository = carRepository;
         passwordUsedByAll = "test12";
     }
 
@@ -22,6 +32,12 @@ public class SetupDevUsers implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         setupUserWithRoleUsers();
     }
+
+    Member member = new Member("userXX", "blabla", "ss@ss", "Simon");
+    Member member1 = new Member("Simon", "Test", "test@test", "Simon");
+    //Member member2 = new Member("Simon", "Bang", "Dybendalsvej", "Vanløse", 2700, true, 1);
+    Car car = new Car ("Test", "Test", 300, 3000 );
+
 
     /*****************************************************************************************
      NEVER  COMMIT/PUSH CODE WITH DEFAULT CREDENTIALS FOR REAL
@@ -43,5 +59,9 @@ public class SetupDevUsers implements ApplicationRunner {
         userWithRolesRepository.save(user1);
         userWithRolesRepository.save(user2);
         userWithRolesRepository.save(user3);
+        memberRepository.save(member);
+        memberRepository.save(member1);
+        carRepository.save(car);
+        //memberRepository.save(member2);
     }
 }
